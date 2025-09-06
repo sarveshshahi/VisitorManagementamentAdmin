@@ -1,17 +1,7 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:8000/api/users';
-
-// Create axios instance
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
+import apiClient from './apiClient';
 
 // Add request interceptor to add auth token
-api.interceptors.request.use(
+apiClient.interceptors.request.use(
   (config) => {
     const tokens = JSON.parse(localStorage.getItem('tokens'));
     if (tokens?.accessToken) {
@@ -25,7 +15,7 @@ api.interceptors.request.use(
 // Login user
 const login = async (credentials) => {
   try {
-    const response = await api.post('/login', credentials);
+    const response = await apiClient.post('/api/users/login', credentials);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Login failed' };
@@ -36,7 +26,7 @@ const login = async (credentials) => {
 const refreshToken = async () => {
   try {
     const tokens = JSON.parse(localStorage.getItem('tokens'));
-    const response = await api.post('/refresh-token', { refreshToken: tokens.refreshToken });
+    const response = await apiClient.post('/api/users/refresh-token', { refreshToken: tokens.refreshToken });
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Token refresh failed' };

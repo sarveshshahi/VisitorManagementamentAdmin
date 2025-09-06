@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import apiClient from "../../redux/services/apiClient";
 import {
   CRow,
   CCol,
@@ -36,7 +36,7 @@ const Purpose = () => {
   useEffect(() => {
     const fetchPurposes = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/purpose/all");
+        const res = await apiClient.get("/api/purpose/all");
         if (res.data.success) {
           setPurposes(res.data.data);
         }
@@ -67,7 +67,7 @@ const Purpose = () => {
   const savePurpose = async () => {
     if (newPurpose.name.trim()) {
       try {
-        const res = await axios.post("http://localhost:8000/api/purpose/add", newPurpose);
+        const res = await apiClient.post("/api/purpose/add", newPurpose);
         if (res.data.success) {
           setPurposes([res.data.data, ...purposes]); // prepend new purpose
         }
@@ -81,7 +81,7 @@ const Purpose = () => {
   const deletePurpose = async (name) => {
     if (window.confirm(`Delete purpose "${name}"?`)) {
       try {
-        const res = await axios.delete("http://localhost:8000/api/purpose/delete", {
+        const res = await apiClient.delete("/api/purpose/delete", {
           data: { name },
         });
         if (res.data.success) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import apiClient from "../../redux/services/apiClient";
 import {
   CRow,
   CCol,
@@ -36,7 +36,7 @@ const Person = () => {
   useEffect(() => {
     const fetchPersons = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/person/all");
+        const res = await apiClient.get("/api/person/all");
         if (res.data.success) {
           setPersons(res.data.data);
         }
@@ -67,7 +67,7 @@ const Person = () => {
   const savePerson = async () => {
     if (newPerson.name.trim()) {
       try {
-        const res = await axios.post("http://localhost:8000/api/person/add", newPerson);
+        const res = await apiClient.post("/api/person/add", newPerson);
         if (res.data.success) {
           setPersons([...persons, res.data.data]); // backend should return new person
         }
@@ -81,7 +81,7 @@ const Person = () => {
   const deletePerson = async (name) => {
     if (window.confirm("Delete this person?")) {
       try {
-        const res = await axios.delete("http://localhost:8000/api/person/delete", {
+        const res = await apiClient.delete("/api/person/delete", {
           data: { name },
         });
         if (res.data.success) {
