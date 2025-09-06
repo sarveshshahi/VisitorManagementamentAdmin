@@ -5,6 +5,7 @@ import {
   cilUser,
   cilBriefcase,
   cilAddressBook,
+  cilAccountLogout,
 } from '@coreui/icons'
 import { CNavItem } from '@coreui/react'
 
@@ -36,6 +37,12 @@ const _nav = [
     name: 'Registered User',
     to: '/RegisteredUser',
     icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Logout',
+    to: '#',
+    icon: <CIcon icon={cilAccountLogout} customClassName="nav-icon" />,
   },
 ]
 
